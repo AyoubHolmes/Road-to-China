@@ -16,5 +16,6 @@ let personalData = {
 }
 
 const fullnameHandler = () => {
-    
+    personalData.fullname = document.getElementById("fullname").value;
+    console.log(personalData.fullname);
 }
