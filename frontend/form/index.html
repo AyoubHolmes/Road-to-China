@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<title>Wizard V1</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
 	<link rel="stylesheet" href="assets/css/animate.min.css">
 	<link rel="stylesheet" href="assets/css/fontawesome-all.css">
@@ -83,57 +83,49 @@
 										<!-- <input type="text" id="fname" name="fname" class="form-control required" minlength="2" placeholder="First name *" required>
 										<input type="text" id="sname" name="sname" class="form-control required" minlength="2" placeholder="Second name *" required>  -->
 										<input type="text" id="fullname" name="fullname" onchange="fullnameHandler()" class="form-control required" minlength="2" id="fullname" placeholder="First and last name *" required>
-										<input type="email" id="email" name="email" class="form-control required" placeholder="Email Address *" required>
-										<input type="text" id="phone" name="phone" placeholder="Phone" class="required" required>
+										<input type="email" id="email" name="email" onchange="emailHandler()" class="form-control required" placeholder="Email Address *" required>
+										<input type="text" id="phone" name="phone" onchange="phoneHandler()" placeholder="Phone" class="required" required>
 									</div>
-									<div class="gender-selection">
+									<div class="gender-selection" onchange="genderHandler()">
 										<h3>Gender:</h3>
 										<label>
 											<input type="radio" id="gender" name="gender" value="Male" class="requied">
 											<span class="checkmark"></span>Male
 										</label>
 										<label>
-											<input type="radio" id="gender" name="gender" value="Female">
+											<input type="radio"  id="gender" name="gender" value="Female">
 											<span class="checkmark"></span>Female
 										</label>
 									</div>
 									<div class="form-inner-area">
 										<label for="birthdate" class="col-form-label">Date of birth <span style="color: red;">*</span>:</label>
-										<input type="date" id="birthdate" name="birthdate" class="form-control required" placeholder="date of birth *" required>
+										<input type="date" onchange="birthdateHandler()" id="birthdate" name="birthdate" class="form-control required" placeholder="date of birth *" required>
 										<!-- <div class="row">
 											<label for="example-date-input" class="col-sm-1 col-form-label">Date of birth</label>
 											<div style="float: right" class="col-11">
 											  <input type="date" id="birthdate" name="birthdate" class="form-control required" placeholder="date of birth *" required>
 											</div>
 										</div> -->
-										<input type="text" id="city" name="city" class="form-control required" placeholder="City of birth *" required>
-										<input type="text" id="address" name="address" class="form-control required" placeholder="Current adress *" required>
-										<input type="text" id="passport" name="passport" class="form-control required" placeholder="Passport Number *" required>
+										<input type="text" onchange="cityHandler()" id="city" name="city" class="form-control required" placeholder="City of birth *" required>
+										<input type="text" onchange="addressHandler()" id="address" name="address" class="form-control required" placeholder="Current adress *" required>
+										<input type="text" onchange="passportHandler()" id="passport" name="passport" class="form-control required" placeholder="Passport Number *" required>
 										<label for="passport_issue" class="col-form-label">Passport issue date <span style="color: red;">*</span>:</label>
-										<input type="date" id="passport_issue" name="passport_issue" class="form-control required" placeholder="Passport issue date *" required>
+										<input type="date" onchange="passportIssueHandler()" id="passport_issue" name="passport_issue" class="form-control required" placeholder="Passport issue date *" required>
 										<label for="passport_expiry" class="col-form-label">Passport expiry date <span style="color: red;">*</span>:</label>
-										<input type="date" id="passport_expiry" name="passport_expiry" class="form-control required" placeholder="Passport expiry date *" required>
+										<input type="date" onchange="passportExpiryHandler()" id="passport_expiry" name="passport_expiry" class="form-control required" placeholder="Passport expiry date *" required>
 									</div>
-									<div class="gender-selection">
+									<div class="gender-selection" onchange="studiedHandler()">
 										<h3>Already Studied In china? :</h3>
 										<label>
-											<input type="radio" id="studied" name="studied" value="yes">
+											<input type="radio" id="studied"  name="studied" value="yes">
 											<span class="checkmark"></span>Yes
 										</label>
 										<label>
-											<input type="radio" id="studied" name="studied" value="no">
+											<input type="radio" id="studied"  name="studied" value="no">
 											<span class="checkmark"></span>No
 										</label>
 									</div>
-									<div class="form-inner-area gender-selection">
-										<h3>If yes :</h3>
-										<div class="form-inner-area">
-											<input type="text" id="studied_city" name="studied_city" class="form-control " minlength="2" placeholder="Which city? ">
-											<input type="text" id="studied_university" name="studied_university" class="form-control " minlength="2" placeholder="Which university? ">
-											<input type="text" id="studied_major" name="studied_major" class="form-control " minlength="2" placeholder="Which major? ">
-										</div>
-									</div>
-
+									<div id="studiedTrue"></div>
 									<div class="upload-documents">
 										<h3>Upload you image: (If they are available now)</h3>
 										<div class="upload-araa bg-white">
@@ -184,14 +176,14 @@
 									<h2>Family information</h2>
 									<p></p>
 									<div class="form-inner-area">
-										<input type="text" name="father_fname" class="form-control  required" minlength="2" placeholder="Father's first name *" >
-										<input type="text" name="father_sname" class="form-control required " minlength="2" placeholder="Father'd last name *">
-										<input type="text" name="father_occupation" class="form-control required " placeholder="Father's occupation *">
-										<input type="number" name="father_phone" placeholder="Father's phone number" class="">
-										<input type="text" name="mother_fname" class="form-control required " minlength="2" placeholder="Father's first name *">
-										<input type="text" name="mother_sname" class="form-control required " minlength="2" placeholder="Father'd last name *">
-										<input type="text" name="mother_occupation" class="form-control required " placeholder="Father's occupation *">
-										<input type="number" name="mother_phone" placeholder="Mother's phone number" class="">
+										<input type="text" id="father_fname" onchange="fatherFnameHandler()" name="father_fname" class="form-control  required" minlength="2" placeholder="Father's first name *" >
+										<input type="text" id="father_sname" onchange="fatherSnameHandler()" name="father_sname" class="form-control required " minlength="2" placeholder="Father'd last name *">
+										<input type="text" id="father_occupation" onchange="fatherOccupationHandler()" name="father_occupation" class="form-control required " placeholder="Father's occupation *">
+										<input type="text" id="father_phone" onchange="fatherPhoneHandler()" name="father_phone" placeholder="Father's phone number" class="">
+										<input type="text" id="mother_fname" onchange="motherFnameHandler()" name="mother_fname" class="form-control required " minlength="2" placeholder="Father's first name *">
+										<input type="text" id="mother_sname" onchange="motherSnameHandler()" name="mother_sname" class="form-control required " minlength="2" placeholder="Father'd last name *">
+										<input type="text" id="mother_occupation" onchange="motherOccupationHandler()" name="mother_occupation" class="form-control required " placeholder="Father's occupation *">
+										<input type="text" id="mother_phone" onchange="motherPhoneHandler()" name="mother_phone" placeholder="Mother's phone number" class="">
 
 									</div>
 								</div>
@@ -357,11 +349,45 @@
 	<script src="assets/js/dataHandler.js"></script>
 	<script src="assets/js/switch.js"></script>
 	<script>
+		const studiedHandler = () => {
+			personalData.studied = $('input[name="studied"]:checked').val();
+			if(personalData.studied === 'no')
+			{
+				console.log(personalData.studied);
+				$("#studied_true").remove();
+			}
+			if(personalData.studied === 'yes')
+			{
+				console.log(personalData.studied);
+				$("#studiedTrue").html("<div id=\"studied_true\" class=\"form-inner-area gender-selection\">\
+										<h3>If yes :</h3>\
+										<div class=\"form-inner-area\">\
+											<input type=\"text\" id=\"studied_city\" onchange=\"studiedCityHandler()\" name=\"studied_city\" class=\"form-control\" minlength=\"2\" placeholder=\"Which city? \">\
+											<input type=\"text\" id=\"studied_university\" onchange=\"studiedUniversityHandler()\" name=\"studiedUniversityHandler\" class=\"form-control\" minlength=\"2\" placeholder=\"Which university? \">\
+											<input type=\"text\" id=\"studied_major\" onchange=\"studiedMajorHandler()\" name=\"studiedMajorHandler\" class=\"form-control\" minlength=\"2\" placeholder=\"Which major? \">\
+										</div>\
+									</div>");
+			}
+		}
+		const studiedCityHandler = () => {
+			personalData.studiedCity = $('input[id="studied_city"]').val();
+			console.log(personalData.studiedCity);
+		}
+
+		const studiedUniversityHandler = () => {
+			personalData.studiedUniversity = $('input[id="studied_university"]').val();
+			console.log(personalData.studiedUniversity);
+		}
+
+		const studiedMajorHandler = () => {
+			personalData.studiedMajor = $('input[id="studied_major"]').val();;
+			console.log(personalData.studiedMajor);
+		}
+		console.log(personalData.studied);
 		$("#files").change(function() {
 			filename = this.files[0].name
 			// console.log(filename);
 		});
-
 		function UploadFile() {
 			var reader = new FileReader();
 			var file = document.getElementById('attach').files[0];

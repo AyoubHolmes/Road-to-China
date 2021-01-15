@@ -234,7 +234,7 @@ $(function() {
 		} else if(eventTarget.classList.contains(`${DOMstrings.stepNextBtnClass}`)  ) { 
 			//if(eventTarget.id === 'submitButtonFinal')
 			//   alert("Clicked!");
-			console.log(eventTarget.id);
+			
 		let form;
 		let tagId;
 		if (eventTarget.id === 'submitButton-0')
@@ -245,7 +245,7 @@ $(function() {
 			tagId= '#wizard-2';
 		form = $(`${tagId}`);
 		form.validate();
-		console.log(form.valid());
+		
 		
 		var parent_fieldset = $('.multisteps-form__panel.js-active');
 		var next_step = true;
@@ -253,8 +253,8 @@ $(function() {
 		parent_fieldset.find('.required').each( function(index, value){
             var form = $(`#${value.id}`);
 			//value.validate();
-			console.log(form);
-			console.log(`#${value.id}`);
+			
+			
             if (form.valid() === false) {
                 next_step = false;
 				$(this).addClass('custom-select is-invalid');
