@@ -119,3 +119,9 @@ const motherPhoneHandler = () => {
     familyData.motherPhone = $('input[id="mother_phone"]').val();
     console.log(familyData.motherPhone);
 }
+
+// Educational Background
+
+const edBackground = (edForm, edTo, edInstitute ) => {
+     return (0);
+}
