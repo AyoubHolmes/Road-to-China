@@ -121,7 +121,3 @@ const motherPhoneHandler = () => {
 }
 
 // Educational Background
-
-const edBackground = (edForm, edTo, edInstitute ) => {
-     return (0);
-}
