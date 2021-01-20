@@ -1,4 +1,7 @@
 const User = require('../models/user-model');
+const jwt = require('jsonwebtoken');
+const sendMail = require('./mail');
+const fs = require('fs');
 
 createUser = (req, res) => {
     const body = req.body
@@ -13,13 +16,17 @@ createUser = (req, res) => {
     const user = new User(body);
     if (!user)
         return res.status(400).json({success: false, message: err})
+    console.log(user);
     user
         .save()
-        .then(() => res.status(201).json({
-            success: true,
-            id: user._id,
-            message: 'User added successfully'
-        }))
+        .then(() => {
+            sendMail(user.email).catch(console.error);
+            res.status(201).json({
+                success: true,
+                id: user._id,
+                message: 'user added successfully'
+            })
+        })
         .catch((err) => res.status(400).json({
             err,
             message: 'azer'
@@ -87,6 +94,71 @@ getUsers = async (req, res) => {
         return res.status(200).json({ success: true, users: users })
     }).catch(err => console.error(err));
 }
+// ------------------------- authentification -------------------
+const secret = 'newSecret';
+authUser = async (req, res) => {
+    const {email, password} = req.body;
+    await User.findOne({ email: req.body.email }, function(err, user) {
+        if (err) {
+          console.error(err);
+          res.status(500)
+            .json({
+            error: 'Internal error please try again'
+          });
+        } else if (!user) {
+          res.status(401)
+            .json({
+              error: 'Incorrect email or password'
+            });
+        } else {
+          user.isCorrectPassword(password, function(err, same) {
+            if (err) {
+              res.status(500)
+                .json({
+                  error: 'Internal error please try again'
+              });
+            }
+            else if (!same) {
+              res.status(401)
+                .json({
+                  error: 'Incorrect email or password'
+              });
+            }
+            else {
+                const payload = { email };
+                const token = jwt.sign(payload, secret, {
+                    expiresIn: '1h'
+                });
+                console.log("Here")
+                res.cookie('token', token, { httpOnly: true })
+                    .sendStatus(200);
+                let data = JSON.stringify(user);
+                console.log(data)
+                fs.writeFileSync('user.json', data, err => {
+                    if (err) console.log(err);
+                    console.log('User saved!');
+                });
+            }
+          });
+        }
+      });
+}
+
+withAuth = (req, res) => {
+    const token = req.cookies.token;
+    if (!token) {
+      res.status(401).send('Unauthorized: No token provided');
+    } else {
+      jwt.verify(token, secret, function(err, decoded) {
+        if (err) {
+          res.status(401).send('Unauthorized: Invalid token');
+        } else {
+          req.email = decoded.email;        }
+      });
+    }
+}
+
+// ----------------------------------------------------
 
 module.exports = {
     createUser,
@@ -94,4 +166,6 @@ module.exports = {
     deleteUser,
     getUserById,
     getUsers,
+    authUser,
+    withAuth
 };

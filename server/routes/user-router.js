@@ -5,9 +5,11 @@ const UserCtrl = require('../controllers/user-ctrl');
 const router = express.Router();
 
 router.post('/user', UserCtrl.createUser);
+router.post('/user/authenticate', UserCtrl.authUser);
 router.put('/user/:id', UserCtrl.updateUser);
 router.delete('/user/:id', UserCtrl.deleteUser);
 router.get('/user/:id', UserCtrl.getUserById);
 router.get('/users', UserCtrl.getUsers);
-
+router.get('/user/checkToken', UserCtrl.withAuth);
+  
 module.exports = router;
