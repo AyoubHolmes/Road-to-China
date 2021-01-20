@@ -35,7 +35,8 @@ updateUser = async (req, res) => {
             messgae: 'You must provide a body'
         });
     }
-    User.findOne({ _id: req.param.id }, (err, user) => {
+    console.log(req.params.id);
+    User.findOne({ _id: req.params.id }, (err, user) => {
         if (err)
             return res.status(404).json({ err, message: 'user not found' });
         user.name = body.name;
@@ -57,7 +58,8 @@ updateUser = async (req, res) => {
 }
 
 deleteUser = async (req, res) => {
-    await User.findOneAndDelete({ _id: req.param.id }, (err, user) => {
+    console.log(req.params.id);
+    await User.findOneAndDelete({ _id: req.params.id }, (err, user) => {
         if(err)
             return res.status(400).json({ err});
         if(!user)
@@ -67,7 +69,7 @@ deleteUser = async (req, res) => {
 }
 
 getUserById = async (req, res) => {
-    await User.findOne({ _id: req.param.id }, (err, user) => {
+    await User.findOne({ _id: req.params.id }, (err, user) => {
         if(err)
             return res.status(400).json({ err});
         if(!user)
@@ -77,7 +79,7 @@ getUserById = async (req, res) => {
 }
 
 getUsers = async (req, res) => {
-    await User.findOne({}, (err, users) => {
+    await User.find({}, (err, users) => {
         if(err)
             return res.status(400).json({ err});
         if(!users)

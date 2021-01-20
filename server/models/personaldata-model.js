@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const personalData = new Schema(
+const PersonalData = new Schema(
     {
         userId: {
           type: String,
@@ -64,4 +64,4 @@ const personalData = new Schema(
     {timestamps: true},
 );
 
-module.exports = mongoose.model('personal-data', personalData);
+module.exports = mongoose.model('personaldata', PersonalData);

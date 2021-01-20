@@ -6,7 +6,9 @@ const serverPort = 5000;
 
 const db = require('./db');
 
-const apiRouter = require('./routes/user-router');
+const userRouter = require('./routes/user-router');
+const personalDataRouter = require('./routes/personaldata-router');
+const familyDataRouter = require('./routes/familydata-router');
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(cors());
@@ -18,6 +20,8 @@ app.get('/', (req, res) => {
     res.send('Yoooooo');
 })
 
-app.use('/api', apiRouter);
+app.use('/api', userRouter);
+app.use('/api', personalDataRouter);
+app.use('/api', familyDataRouter);
 
 app.listen(serverPort, () => console.log(`Let's get started. Port: ${serverPort}`))
