@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import {Paper, Button, FormControl, Input, InputLabel } from '@material-ui/core'
 import withStyles from '@material-ui/core/styles/withStyles'
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter, useLocation } from 'react-router-dom';
+//import { useLocation } from 'react-router-dom'
+
 
 
 const styles = theme => ({
@@ -43,6 +45,9 @@ const Login = (props)=> {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
+	
+	const location = useLocation();
+  	console.log(location.pathname);
 	useEffect(()=>{
 		document.title = "Login";
 	},[]);
