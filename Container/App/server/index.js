@@ -4,8 +4,9 @@ const cors = require('cors');
 const app = express();
 const cookieParser = require('cookie-parser');
 const UserCtrl = require('./controllers/user-ctrl');
+const path = require("path");
+const querystring = require('querystring');
 
-// const path = require('path');
 
 const serverPort = 5000;
 
@@ -30,6 +31,10 @@ db.on('error', console.error.bind(console, 'MongoDB connection error: '));
 app.use('/api', userRouter);
 app.use('/api', personalDataRouter);
 app.use('/api', familyDataRouter);
-app.use('/user',/*UserCtrl.withAuth,*/express.static("form"));
+app.use(express.static(path.join(__dirname, "../frontend/", "build")));
+app.use('/login', express.static(path.join(__dirname, "../frontend/", "build")));
+app.get ('/checkToken', UserCtrl.withAuth)
+app.get('/confirm/user', UserCtrl.confirmUser);
+app.use('/user',express.static("form"));
 
 app.listen(serverPort);

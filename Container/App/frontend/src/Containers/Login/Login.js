@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import {Paper, Button, FormControl, Input, InputLabel } from '@material-ui/core'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { Link, withRouter, useLocation } from 'react-router-dom';
+import axios from 'axios';
+
 //import { useLocation } from 'react-router-dom'
 
 
@@ -58,8 +60,8 @@ const Login = (props)=> {
 		.then(res => {
 			if (res.status === 200) {
 				res.json().then(r => {
-					//localStorage.setItem('token', r.user._id);
-					window.location.href = ('http://localhost:5000/user?id=' + r.user._id);
+					console.log(r.user.isConfirmed)
+					window.location.href = ('http://localhost:5000/user?id=' + r.user._id + '&isConfirmed='+r.user.isConfirmed);
 				});
 			} else {
 			const error = new Error(res.error);
@@ -89,8 +91,7 @@ const Login = (props)=> {
 				console.log(id)
 				//window.location.href = 'http://localhost:5000' + r.user._id
 			} else {
-			const error = new Error(res.error);
-			throw error;
+				console.log(res.status)
 			}
 		})
 		.catch(err => {

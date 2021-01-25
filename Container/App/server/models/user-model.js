@@ -22,6 +22,10 @@ const User = new Schema(
         phone: {
           type: String,
           required: true
+        },
+        isConfirmed: {
+          type: String,
+          required: true
         }
     },
     {timestamps: true},

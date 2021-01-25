@@ -14,13 +14,14 @@ createUser = (req, res) => {
     }
 
     const user = new User(body);
+    user.isConfirmed = 'true';
     if (!user)
         return res.status(400).json({success: false, message: err})
     console.log(body);
     user
         .save()
         .then(() => {
-            sendMail(user.email).catch(console.error);
+            sendMail(user.email, user._id).catch(console.error);
             res.status(201).json({
                 success: true,
                 id: user._id,
@@ -60,6 +61,37 @@ updateUser = async (req, res) => {
             .catch((error) => res.status(404).json({
                 error,
                 message: 'User not updated'
+            }))
+    })
+}
+
+confirmUser = async (req, res) => {
+    let id = req.query.id;
+    console.log(id);
+    if(!id) {
+        return res.status(400).json({
+            success: false,
+            messgae: 'You must provide a body'
+        });
+    }
+    User.findOne({ _id: id }, (err, user) => {
+        if (err)
+            return res.status(404).json({ err, message: 'user not found' });
+        /*return res.status(200).json({
+            success: 'true',
+            user: user
+        });*/
+        user.isConfirmed = 'true';
+        user
+            .save()
+            .then(() => res.status(200).json({
+                success: true,
+                id: user._id,
+                message: 'User confirmed successfully'
+            }))
+            .catch((error) => res.status(404).json({
+                error,
+                message: 'User not confirmed'
             }))
     })
 }
@@ -135,7 +167,7 @@ authUser = async (req, res) => {
                   error: 'Incorrect email or password'
               });
             }
-            else {
+            else if(user.isConfirmed === 'true'){
                 console.log(user)
                 const id = user._id;
                 const payload = { id };
@@ -143,7 +175,7 @@ authUser = async (req, res) => {
                     expiresIn: '1h'
                 });
                 console.log('here1');
-                //localStorage.setItem('token', token);
+                res.cookie('token',token, { maxAge: 900000, httpOnly: true });
                 res.sendStatus(200);
             }
           });
@@ -151,7 +183,7 @@ authUser = async (req, res) => {
       });
 }
 
-withAuth = (req, res) => {
+withAuth = (req, res, next) => {
     console.log('\n')
     const token = req.cookies.token;
     console.log(req.cookies)
@@ -162,8 +194,14 @@ withAuth = (req, res) => {
         if (err) {
           res.status(401).send('Unauthorized: Invalid token');
         } else {
-          req.email = decoded.email;   
-            console.log(decoded.email)     
+          req.id = decoded.id;
+          console.log("here 2")
+          console.log(decoded.id);
+          res.status(200).json({
+            success: true,
+            id: decoded.id,
+            message: 'Token exists'
+        })
         }
       });
     }
@@ -174,6 +212,7 @@ withAuth = (req, res) => {
 module.exports = {
     createUser,
     updateUser,
+    confirmUser,
     deleteUser,
     getUserById,
     getIdByEmail,

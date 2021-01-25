@@ -356,9 +356,17 @@
 	<script src="assets/js/dataHandler.js"></script>
 	<script src="assets/js/switch.js"></script>
 	<script>
-		console.log(window.location.href);
-		document.cookie = "username=John Smith; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/";
+		console.clear();
 		console.log(document.cookie);
+		let param = parseURLParams(window.location.href);
+		console.log(param.id[0])
+		$.get('http://localhost:5000/checkToken', data => {
+			if(data.id === param.id[0])
+				console.log('done')
+			else
+				window.location.href = ('http://localhost:5000/login');
+		})
+
 		function parseURLParams(url) {
 			var queryStart = url.indexOf("?") + 1,
 				queryEnd   = url.indexOf("#") + 1 || url.length + 1,
@@ -378,8 +386,6 @@
 			}
 			return parms;
 		}
-		let param = parseURLParams(window.location.href);
-		console.log(param.id[0])
 		personalData.userId = param.id[0];
 		familyData.userId = param.id[0];
 	</script>

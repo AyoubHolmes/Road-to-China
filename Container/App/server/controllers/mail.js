@@ -1,7 +1,7 @@
 "use strict";
 const nodemailer = require("nodemailer");
 
-const sendMail = async (email) => {
+const sendMail = async (email, id) => {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -14,7 +14,7 @@ const sendMail = async (email) => {
         from: 'ayoubboulbaz123@gmail.com',
         to: `${email}`,
         subject: 'Road to China: Confirmation email',
-        text: 'Application form link: '
+        text: 'Application form link: http://localhost:5000/confirm/user?id=' + id 
       };
       
       transporter.sendMail(mailOptions, function(error, info){
