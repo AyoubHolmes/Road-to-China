@@ -3,8 +3,6 @@ import {Paper, Button, FormControl, Input, InputLabel } from '@material-ui/core'
 import withStyles from '@material-ui/core/styles/withStyles'
 import { Link, withRouter } from 'react-router-dom';
 
-//import { useLocation } from 'react-router-dom'
-
 
 
 const styles = theme => ({
@@ -52,6 +50,17 @@ const Login = (props)=> {
 
 	
 	useEffect(()=>{
+		fetch('http://localhost:5000/checkToken')
+		.then(res => {
+			if (res.status === 200) {
+				res.json().then(r => {
+					window.location.href = ('http://localhost:5000/user/?id=' + r.id);
+				});
+			}
+		})
+		.catch(err => {
+			console.error(err);
+		});
 		document.title = "Login";
 	},[]);
 
@@ -61,7 +70,10 @@ const Login = (props)=> {
 		.then(res => {
 			if (res.status === 200) {
 				res.json().then(r => {
-					window.location.href = ('http://localhost:5000/user?id=' + r.user._id);
+					if(r.user.isApplied === 'false')
+						window.location.href = ('http://localhost:5000/user?id=' + r.user._id);
+					else
+						window.location.href = ('http://localhost:5000/application?id=' + r.user._id);
 				});
 			}
 			else if (res.status === 404)
