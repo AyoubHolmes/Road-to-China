@@ -50,7 +50,9 @@ const Login = (props)=> {
 
 	
 	useEffect(()=>{
-		fetch('http://localhost/checkToken')
+		const myHeaders = new Headers();
+                myHeaders.append('Access-Control-Allow-Origin', '*');
+		fetch('http://161.35.129.190/checkToken')
 		.then(res => {
 			if (res.status === 200) {
 				res.json().then(r => {

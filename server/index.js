@@ -16,6 +16,11 @@ const userRouter = require('./routes/user-router');
 const personalDataRouter = require('./routes/personaldata-router');
 const familyDataRouter = require('./routes/familydata-router');
 
+app.use((req, res, next) => {
+	res.header('Access-Control-Allow-Origin', '*');
+	next();
+});
+
 
 app.use(bodyParser.urlencoded({extended: true}))
 
