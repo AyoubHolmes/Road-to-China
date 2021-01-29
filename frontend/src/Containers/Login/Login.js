@@ -56,7 +56,7 @@ const Login = (props)=> {
 		.then(res => {
 			if (res.status === 200) {
 				res.json().then(r => {
-					window.location.href = ('http://localhost/user/?id=' + r.id);
+					window.location.href = ('http://161.35.129.190/user/?id=' + r.id);
 				});
 			}
 		})
@@ -68,14 +68,14 @@ const Login = (props)=> {
 
 	const getId = (email) => {
 		let id = '';
-		fetch('http://localhost/api/userid/' + email)
+		fetch('http://161.35.129.190/api/userid/' + email)
 		.then(res => {
 			if (res.status === 200) {
 				res.json().then(r => {
 					if(r.user.isApplied === 'false')
-						window.location.href = ('http://localhost/user?id=' + r.user._id);
+						window.location.href = ('http://161.35.129.190/user?id=' + r.user._id);
 					else
-						window.location.href = ('http://localhost/application?id=' + r.user._id);
+						window.location.href = ('http://161.35.129.190/application?id=' + r.user._id);
 				});
 			}
 			else if (res.status === 404)
@@ -92,7 +92,7 @@ const Login = (props)=> {
 
 	const onSubmit = (event) => {
 		event.preventDefault();
-		fetch('http://localhost/api/user/authenticate', {
+		fetch('http://161.35.129.190/api/user/authenticate', {
 			method: 'POST',
 			body: JSON.stringify({email: email, password: password}),
 			headers: {

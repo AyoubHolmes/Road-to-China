@@ -51,7 +51,7 @@ const Login = (props) => {
                 <Input styleName="inputText" label="Password" typeInput="password" valueChangeHandler={props.valueChangeHandler}/>
                 <ul>
                     <li><input type="checkbox" /> Remember Me </li>
-                    <li><a href="localhost:3000/" style={{textDecoration: 'none'}}>Forgot your password?</a></li>
+                    <li><a href="161.35.129.190:3000/" style={{textDecoration: 'none'}}>Forgot your password?</a></li>
                 </ul>   
                 <input type="submit" value="Login" style={btnstyle} onClick={props.loginHandler}/>
                 <p className="Input">No account yet?<Link to="/signup" style={{textDecoration: 'none'}}>Get Started for free</Link></p>
